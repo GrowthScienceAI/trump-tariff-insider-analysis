@@ -1,0 +1,37 @@
+# Netlify Configuration File
+# https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # No build command needed - this is a static HTML site
+  publish = "."
+  
+[build.environment]
+  # No environment variables needed
+
+# Redirect rules
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
+    X-XSS-Protection = "1; mode=block"
+
+# Cache static assets
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Enable Netlify Forms (if needed in future)
+[dev]
+  command = "python -m http.server 8888"
+  targetPort = 8888
+  publish = "."
+  autoLaunch = true
